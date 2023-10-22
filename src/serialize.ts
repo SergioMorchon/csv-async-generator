@@ -61,7 +61,7 @@ const createContent = (
 
 type Signature<Item, Items> = [
 	items: Items,
-	headers: Headers<any>,
+	headers: Headers<Item>,
 	options?: SerializeOptions<Item>,
 ];
 
