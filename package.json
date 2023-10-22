@@ -1,0 +1,25 @@
+{
+	"name": "csv-async-generator",
+	"version": "1.0.0",
+	"type": "module",
+	"main": "dist/index.js",
+	"types": "dist/index.d.ts",
+	"files": [
+		"dist"
+	],
+	"scripts": {
+		"build": "vite build",
+		"test": "vitest run"
+	},
+	"dependencies": {
+		"vite": "^4.5.0",
+		"vitest": "^0.34.6"
+	},
+	"author": "Sergio Morchón Poveda <sergio.morchon@outlook.com>",
+	"license": "MIT",
+	"packageManager": "yarn@3.6.4",
+	"devDependencies": {
+		"prettier": "^3.0.3",
+		"vite-plugin-dts": "^3.6.0"
+	}
+}

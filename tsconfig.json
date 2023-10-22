@@ -1,0 +1,17 @@
+{
+	"compilerOptions": {
+		"strict": true,
+		"noPropertyAccessFromIndexSignature": true,
+		"lib": ["es2023"],
+		"target": "es2022",
+		"module": "esnext",
+		"moduleResolution": "bundler",
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+		"noEmit": true,
+		"declaration": true,
+		"declarationMap": true
+	},
+	"include": ["src"],
+	"exclude": ["**/__tests__"]
+}
