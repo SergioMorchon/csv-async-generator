@@ -37,4 +37,26 @@ test('escapes the header content too', () => {
 	expect(
 		serialize([], [["value", 'Va;"lue']])
 	).toBe('"Va;""lue"\r\n');
-})
+});
+
+
+test('custom props', () => {
+	expect(
+		serialize([{propA: 'a'}, {propB: 'b'}], [["propA", 'A'], ['propB', 'B']], {
+			serializeField: (value, property) => {
+				if (!value) {
+					return ''
+				}
+
+				switch (property) {
+					case 'propA':
+						return `A is ${value ?? ''}`;
+					case 'propB':
+						return `B is ${value ?? ''}`;
+				}
+			},
+			delimiter: ',',
+			lineBreak: '\n'
+		})
+	).toBe('A,B\n' + 'A is a,\n' + ',B is b\n');
+});
