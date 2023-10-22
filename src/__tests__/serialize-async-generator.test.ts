@@ -41,7 +41,7 @@ const map = async function* <Input, Output>(
 	}
 };
 
-const getFirstFiveOddPositiveNumbersAsItems = () =>
+const getFirstFiveEvenPositiveNumbersAsItems = () =>
 	map(
 		limit(
 			filter(getPositiveNumbers(), (it) => it % 2),
@@ -53,7 +53,7 @@ const getFirstFiveOddPositiveNumbersAsItems = () =>
 test("serialize async generator", async () => {
 	const lines: Array<string> = [];
 	for await (const line of serializeAsyncGenerator(
-		getFirstFiveOddPositiveNumbersAsItems(),
+		getFirstFiveEvenPositiveNumbersAsItems(),
 		[["value", "Value"]]
 	)) {
 		lines.push(line);
