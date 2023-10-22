@@ -38,7 +38,7 @@ const toString = (value: any) => {
 const defaultOptions: SerializeOptions<any> = {
 	delimiter: ";",
 	lineBreak: "\r\n",
-	serializeField: (_, field) => toString(field),
+	serializeField: toString,
 };
 
 const createHeader = (headers: Headers<any>, options: SerializeOptions<any>) =>
@@ -54,7 +54,7 @@ const createContent = (
 ) =>
 	createRecord(
 		headers.map(([fieldProperty], headerIndex) =>
-			options.serializeField(headers[headerIndex][0], item[fieldProperty])
+			options.serializeField(item[fieldProperty], headers[headerIndex][0])
 		),
 		options
 	);
