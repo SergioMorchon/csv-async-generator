@@ -1,23 +1,26 @@
 {
-	"name": "csv-async-generator",
-	"version": "1.0.5",
-	"type": "module",
-	"main": "dist/index.js",
-	"types": "dist/index.d.ts",
-	"files": [
-		"dist"
-	],
-	"scripts": {
-		"build": "vite build",
-		"test": "vitest run"
-	},
-	"author": "Sergio Morchón Poveda <sergio.morchon@outlook.com>",
-	"license": "MIT",
-	"packageManager": "yarn@3.6.4",
-	"devDependencies": {
-		"prettier": "^3.0.3",
-		"vite": "^4.5.0",
-		"vite-plugin-dts": "^3.6.0",
-		"vitest": "^0.34.6"
-	}
+  "name": "csv-async-generator",
+  "version": "1.0.5",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "prettier": "prettier \"**/*.{ts,json,md,yml}\"",
+    "prettier:check": "yarn prettier -l",
+    "prettier:write": "yarn prettier -l -w",
+    "build": "vite build",
+    "test": "vitest run"
+  },
+  "author": "Sergio Morchón Poveda <sergio.morchon@outlook.com>",
+  "license": "MIT",
+  "packageManager": "yarn@3.6.4",
+  "devDependencies": {
+    "prettier": "^3.0.3",
+    "vite": "^4.5.0",
+    "vite-plugin-dts": "^3.6.0",
+    "vitest": "^0.34.6"
+  }
 }
