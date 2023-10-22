@@ -1,11 +1,11 @@
 type Header<Item> = [fieldProperty: keyof Item, headerText: string];
 type Headers<Item> = ReadonlyArray<Header<Item>>;
 type FieldSerializer<Item> = (
+	value: Item[typeof propertyName],
 	propertyName: keyof Item,
-	value: Item[typeof propertyName]
 ) => string;
 
-export type SerializeOptions<Item> = Readonly<{
+type SerializeOptions<Item> = Readonly<{
 	delimiter: string;
 	lineBreak: string;
 	serializeField: FieldSerializer<Item>;
@@ -62,7 +62,7 @@ const createContent = (
 type Signature<Item, Items> = [
 	items: Items,
 	headers: Headers<Item>,
-	options?: SerializeOptions<Item>,
+	options?: Partial<SerializeOptions<Item>>,
 ];
 
 const normalizeArgs = <Item, Items>(...args: Signature<Item, Items>) => {

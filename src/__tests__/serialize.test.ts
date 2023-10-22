@@ -29,6 +29,12 @@ test("serialize sync generator", () => {
 
 test("serialize", () => {
 	expect(
-		serialize([{ value: "A" }, { value: "B" }], [["value", "Value"]])
-	).toBe("Value\r\n" + "A\r\n" + "B\r\n");
+		serialize([{ propA: "A1", propB: "B1" }, { propA: "A2", propB: "B2" }], [["propA", "A"], ["propB", "B"]])
+	).toBe("A;B\r\n" + "A1;B1\r\n" + "A2;B2\r\n");
 });
+
+test('escapes the header content too', () => {
+	expect(
+		serialize([], [["value", 'Va;"lue']])
+	).toBe('"Va;""lue"\r\n');
+})
