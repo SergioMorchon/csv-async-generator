@@ -2,6 +2,27 @@
 
 A tiny CSV library to serialize and deserialize in a performant way. You can take a look at the kind of memory problems it can solve at [serialize-async-generator.test.ts](src/__tests__/serialize-async-generator.test.ts).
 
+## Usage
+
+### Basic
+
+```typescript
+expect(
+  serialize(
+    [
+      { propA: "A1", propB: "B1" },
+      { propA: "A2", propB: "B2" },
+    ],
+    [
+      { header: "A", cell: (item) => item.propA },
+      { header: "B", cell: (item) => item.propB },
+    ],
+  ),
+).toBe("A;B\r\n" + "A1;B1\r\n" + "A2;B2\r\n");
+```
+
+### Advanced
+
 ```typescript
 const getPositiveNumbers = async function* () {
   let number = 1;
@@ -49,13 +70,13 @@ const getFirstFiveEvenPositiveNumbersAsItems = () =>
       filter(getPositiveNumbers(), (it) => it % 2),
       5,
     ),
-    (it) => ({ value: it }),
+    (it) => ({ value: String(it) }),
   );
 
 const lines: Array<string> = [];
 for await (const line of serializeAsyncGenerator(
   getFirstFiveEvenPositiveNumbersAsItems(),
-  [["value", "Value"]],
+  [{ header: "Value", cell: (item) => item.value }],
 )) {
   lines.push(line);
 }
@@ -68,21 +89,4 @@ expect(lines).toStrictEqual([
   "7\r\n",
   "9\r\n",
 ]);
-```
-
-And for a simple sync use case, there is also a `serialize` function.
-
-```typescript
-expect(
-  serialize(
-    [
-      { propA: "A1", propB: "B1" },
-      { propA: "A2", propB: "B2" },
-    ],
-    [
-      ["propA", "A"],
-      ["propB", "B"],
-    ],
-  ),
-).toBe("A;B\r\n" + "A1;B1\r\n" + "A2;B2\r\n");
 ```

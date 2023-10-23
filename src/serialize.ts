@@ -1,103 +1,81 @@
-type Headers<Item> = ReadonlyArray<
-  [fieldProperty: keyof Item, headerText: string]
->;
-type FieldSerializer<Item> = (
-  value: Item[typeof propertyName],
-  propertyName: keyof Item,
-) => string;
+type Column<Item> = Readonly<{
+  header: string;
+  cell: (item: Item) => string | null | undefined;
+}>;
+type Columns<Item> = ReadonlyArray<Column<Item>>;
 
-type SerializeOptions<Item> = Readonly<{
+type SerializeOptions = Readonly<{
   delimiter: string;
   lineBreak: string;
-  serializeField: FieldSerializer<Item>;
 }>;
 
-const DELIMITER = "delimiter";
-const LINE_BREAK = "lineBreak";
-const SERIALIZE_FIELD = "serializeField";
-
-const escapeField = <Item>(field: string, options: SerializeOptions<Item>) =>
-  /"|\r|\n/.test(field) || field.includes(options[DELIMITER])
+const escapeField = (field: string, options: SerializeOptions) =>
+  /"|\r|\n/.test(field) || field.includes(options.delimiter)
     ? `"${field.replace(/"/g, '""')}"`
     : field;
 
-const createRecord = <Item>(
+const createRecord = (
   fields: ReadonlyArray<string>,
-  options: SerializeOptions<Item>,
+  options: SerializeOptions,
 ) =>
-  fields.map((field) => escapeField(field, options)).join(options[DELIMITER]) +
-  options[LINE_BREAK];
-
-const toString = (value: unknown) => {
-  if (value === undefined || value === null) {
-    return "";
-  }
-
-  if (value instanceof Date) {
-    return value.toISOString();
-  }
-
-  return String(value);
-};
+  fields.map((field) => escapeField(field, options)).join(options.delimiter) +
+  options.lineBreak;
 
 const createHeader = <Item>(
-  headers: Headers<Item>,
-  options: SerializeOptions<Item>,
+  columns: Columns<Item>,
+  options: SerializeOptions,
 ) =>
   createRecord(
-    headers.map(([, headerText]) => headerText),
+    columns.map((it) => it.header),
     options,
   );
 
 const createContent = <Item>(
-  headers: Headers<Item>,
+  headers: Columns<Item>,
   item: Item,
-  options: SerializeOptions<Item>,
+  options: SerializeOptions,
 ) =>
   createRecord(
-    headers.map(([fieldProperty], headerIndex) =>
-      options[SERIALIZE_FIELD](item[fieldProperty], headers[headerIndex][0]),
-    ),
+    headers.map((it) => it.cell(item) ?? ""),
     options,
   );
 
 type Signature<Item, Items> = [
   items: Items,
-  headers: Headers<Item>,
-  options?: Partial<SerializeOptions<Item>>,
+  columns: Columns<Item>,
+  options?: Partial<SerializeOptions>,
 ];
 
 const normalizeArgs = <Item, Items>(...args: Signature<Item, Items>) => {
-  const [items, headers, options] = args;
+  const [items, columns, options] = args;
   return [
     items,
-    headers,
+    columns,
     {
-      [DELIMITER]: ";",
-      [LINE_BREAK]: "\r\n",
-      [SERIALIZE_FIELD]: toString,
+      delimiter: ";",
+      lineBreak: "\r\n",
       ...options,
-    },
+    } satisfies SerializeOptions,
   ] as const;
 };
 
 export const serializeAsyncGenerator = async function* <Item>(
   ...args: Signature<Item, AsyncIterable<Item>>
 ) {
-  const [items, headers, options] = normalizeArgs(...args);
-  yield createHeader(headers, options);
+  const [items, columns, options] = normalizeArgs(...args);
+  yield createHeader(columns, options);
   for await (const item of items) {
-    yield createContent(headers, item, options);
+    yield createContent(columns, item, options);
   }
 };
 
 export const serializeGenerator = function* <Item>(
   ...args: Signature<Item, Iterable<Item>>
 ) {
-  const [items, headers, options] = normalizeArgs(...args);
-  yield createHeader(headers, options);
+  const [items, columns, options] = normalizeArgs(...args);
+  yield createHeader(columns, options);
   for (const item of items) {
-    yield createContent(headers, item, options);
+    yield createContent(columns, item, options);
   }
 };
 
