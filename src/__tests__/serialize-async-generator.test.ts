@@ -47,14 +47,14 @@ const getFirstFiveEvenPositiveNumbersAsItems = () =>
       filter(getPositiveNumbers(), (it) => it % 2),
       5,
     ),
-    (it) => ({ value: it }),
+    (it) => ({ value: String(it) }),
   );
 
 test("serialize async generator", async () => {
   const lines: Array<string> = [];
   for await (const line of serializeAsyncGenerator(
     getFirstFiveEvenPositiveNumbersAsItems(),
-    [["value", "Value"]],
+    [{ header: "Value", cell: (item) => item.value }],
   )) {
     lines.push(line);
   }
