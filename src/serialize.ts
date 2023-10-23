@@ -1,10 +1,10 @@
-type Column<Item> = Readonly<{
+export type SerializeColumn<Item> = Readonly<{
   header: string;
   cell: (item: Item) => string | null | undefined;
 }>;
-type Columns<Item> = ReadonlyArray<Column<Item>>;
+export type SerializeColumns<Item> = ReadonlyArray<SerializeColumn<Item>>;
 
-type SerializeOptions = Readonly<{
+export type SerializeOptions = Readonly<{
   delimiter: string;
   lineBreak: string;
 }>;
@@ -22,7 +22,7 @@ const createRecord = (
   options.lineBreak;
 
 const createHeader = <Item>(
-  columns: Columns<Item>,
+  columns: SerializeColumns<Item>,
   options: SerializeOptions,
 ) =>
   createRecord(
@@ -31,7 +31,7 @@ const createHeader = <Item>(
   );
 
 const createContent = <Item>(
-  headers: Columns<Item>,
+  headers: SerializeColumns<Item>,
   item: Item,
   options: SerializeOptions,
 ) =>
@@ -42,7 +42,7 @@ const createContent = <Item>(
 
 type Signature<Item, Items> = [
   items: Items,
-  columns: Columns<Item>,
+  columns: SerializeColumns<Item>,
   options?: Partial<SerializeOptions>,
 ];
 
