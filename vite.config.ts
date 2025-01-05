@@ -7,9 +7,7 @@ export default defineConfig({
     lib: {
       entry: "src/index.ts",
       formats: ["es"],
-      fileName: "index",
     },
-    outDir: "dist",
     sourcemap: true,
     emptyOutDir: true,
   },
