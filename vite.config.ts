@@ -7,7 +7,7 @@ export default defineConfig({
       formats: ["es"],
       fileName: "index",
     },
-    sourcemap: true,
+    sourcemap: false,
     emptyOutDir: true,
   },
 });
