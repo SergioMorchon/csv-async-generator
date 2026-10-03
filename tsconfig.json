@@ -13,7 +13,7 @@
     "noUnusedParameters": true,
     "noEmit": true,
     "declaration": true,
-    "declarationMap": true
+    "declarationMap": false
   },
   "include": ["src"],
   "exclude": ["**/__tests__"]

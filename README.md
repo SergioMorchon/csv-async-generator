@@ -2,6 +2,10 @@
 
 A tiny CSV library to serialize and deserialize in a performant way. You can take a look at the kind of memory problems it can solve at [serialize-async-generator.test.ts](src/__tests__/serialize-async-generator.test.ts).
 
+## Package output
+
+The package exposes an ES module entry point and TypeScript declarations through its package exports. Source maps are not emitted.
+
 ## Usage
 
 ### Basic
