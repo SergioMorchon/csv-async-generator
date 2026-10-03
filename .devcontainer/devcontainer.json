@@ -1,0 +1,12 @@
+{
+  "image": "mcr.microsoft.com/devcontainers/typescript-node:5-24-trixie",
+  "customizations": {
+    "vscode": {
+      "settings": {
+        "editor.formatOnSave": true,
+        "editor.defaultFormatter": "esbenp.prettier-vscode"
+      },
+      "extensions": ["esbenp.prettier-vscode"]
+    }
+  }
+}
