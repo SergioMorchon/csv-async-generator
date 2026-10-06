@@ -1,6 +1,10 @@
 {
   "name": "csv-async-generator",
   "version": "1.0.9",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/SergioMorchon/csv-async-generator"
+  },
   "type": "module",
   "main": "./dist/index.js",
   "module": "./dist/index.js",
