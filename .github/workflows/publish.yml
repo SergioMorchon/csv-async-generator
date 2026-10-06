@@ -16,5 +16,3 @@ jobs:
       - run: yarn build
       - run: yarn test
       - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.REGISTRY_TOKEN }}
